@@ -1,0 +1,30 @@
+{
+  "name": "blogging-application",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/ahnufmir/Blogging-Application#readme",
+  "bugs": {
+    "url": "https://github.com/ahnufmir/Blogging-Application/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahnufmir/Blogging-Application.git"
+  },
+  "license": "ISC",
+  "author": "Ahnuf Mir",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.2.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
