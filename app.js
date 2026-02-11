@@ -13,13 +13,13 @@ const Port = 8000;
 //middlewares
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/home", (req, res) => {
+app.use("/user", userRouter);
+app.use("/", (req, res) => {
   res.render("home");
 });
 
-app.use("/user", userRouter);
 
 app.listen(Port, () => {
   console.log(`Server is listening on Port ${Port}`);

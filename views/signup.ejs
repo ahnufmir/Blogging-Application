@@ -5,7 +5,8 @@
     <title>Blogging App</title>
 </head>
 <body>
-    <form  action="/user/signup" method="post">
+      <%- include('./Partials/navbar') %>
+    <form  action="/user/signup" method="post" enctype="multipart/form-data">
   <div class="mt-4">
     <label for="exampleInputEmail1" class="form-label">Name</label>
     <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -15,6 +16,9 @@
   <div class="mt-4">
     <label for="exampleInputEmail1" class="form-label">Password</label>
     <input type="password" name ="pass" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+  <div class="mt-4">
+    <label for="exampleInputEmail1" class="form-label">Profile Pic</label>
+    <input type="file" name ="img" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
   <div class="mt-4">
     <label for="exampleInputPassword1" class="form-label">Role</label>
     <input type="text" name = "role" class="form-control" id="exampleInputPassword1" placeholder="Admin/User">

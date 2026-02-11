@@ -1,5 +1,6 @@
 const express = require('express');
-const {handlerSignUp} = require("../controllers/userHandlers")
+const {handlerSignUp, handlerSignin} = require("../controllers/userHandlers")
+const {upload} = require("../config/upload");
 
 
 const userRouter = express.Router();
@@ -12,6 +13,7 @@ userRouter.get("/signin", (req,res)=>{
     return res.render("signin");
 })
 
-userRouter.post("/signup", handlerSignUp);
+userRouter.post("/signup", upload.single("img") , handlerSignUp);
+userRouter.post("/signin" , handlerSignin);
 
 module.exports = userRouter;
