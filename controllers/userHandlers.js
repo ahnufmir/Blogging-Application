@@ -14,14 +14,16 @@ console.log(req.body);
 }
 
 async function handlerSignin(req,res){
-    console.log(req.headers["content-type"]);
-    const body = req.body;
-    console.log("Body" , body);
-    const {email,pass} = req.body;
-    const user = await User.matchPassword(email, pass);
-    if(!user) return res.redirect("/signin");
-    console.log("User " , user);
-    return res.redirect("/");
+    try{
+        const {email,pass} = req.body;
+        const token = await User.matchPasswordAndGenerateToken(email, pass);
+        return res.cookie('token', token).redirect("/");
+    }
+    catch(error){
+        return res.render('signin', {
+            error : "Incorrect Email or Password"
+        })
+    }
 
 }
 

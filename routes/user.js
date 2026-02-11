@@ -16,4 +16,8 @@ userRouter.get("/signin", (req,res)=>{
 userRouter.post("/signup", upload.single("img") , handlerSignUp);
 userRouter.post("/signin" , handlerSignin);
 
+userRouter.get("/logout", (req,res)=>{
+    res.clearCookie("token").redirect("/user/signin");
+})
+
 module.exports = userRouter;
