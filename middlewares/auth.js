@@ -8,7 +8,6 @@ function checkForCookieAuhtentication(cookieName){
 
         try{
             const payload = validateToken(tokenCookieValue);
-            console.log(payload);
             req.user = payload;
         }
         catch(error){

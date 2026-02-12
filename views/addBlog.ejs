@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./Partials/head') %>
+    <title>Blogging App</title>
+</head>
+<body>
+    <%- include('./Partials/navbar') %>
+    <div class="container mt-3">
+    <form action="/blog/" method="post" enctype="multipart/form-data">
+
+    <div class="container mb-3">
+    <label for="exampleInputEmail1" class="form-label">Cover Image</label>
+    <input type="file" name="coverImage" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+
+    <div class="container mt-4">
+    <label for="exampleInputEmail1" class="form-label">Title</label>
+    <input type="text" name="title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+
+    <div class="container mt-4">
+    <label for="exampleInputPassword1" class="form-label">Body</label>
+    <textarea name="body" class="form-control" placeholder="Write your blog here" id="floatingTextarea"></textarea>
+    </div>
+
+    <div class="container mt-4">
+        <button class="btn btn-primary">Submit</button>
+    </div>
+
+    </form>
+    <%- include('./Partials/script') %>
+</body>
+</html>

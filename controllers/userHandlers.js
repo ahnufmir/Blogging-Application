@@ -2,12 +2,14 @@ const User = require("../models/user");
 
 async function handlerSignUp(req, res) {
   //  console.log(req.body.img);
-console.log(req.body);
+// console.log(req.body);
+// console.log(req.file);
   const { name, email, pass, role} = req.body;
   await User.create({
     name: name,
     email: email,
     password: pass,
+    profilePicUrl: `/Public/uploads/profile-pic/${req.file.filename}`,
     role: role,
   });
   return res.redirect("/user/signin");
