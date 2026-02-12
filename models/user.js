@@ -24,10 +24,6 @@ const schema = new mongoose.Schema(
       type: String,
       default: "./Public/Images/avatar.jpg",
     },
-    role: {
-      type: String,
-      enum: ["User", "Admin"],
-    },
   },
   { timestamps: true },
 );

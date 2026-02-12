@@ -12,7 +12,7 @@ const schema = new mongoose.Schema(
     },
     coverImageUrl: {
       type: String,
-      default: "./Public/Images/avatar.jpg",
+      default: "./Public/Images/avatar.png",
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,

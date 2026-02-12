@@ -1,28 +1,64 @@
 const Blog = require("../models/blog");
+const Comment = require("../models/comment");
+const { all } = require("../routes/user");
 
-async function createBlog(req,res){
-    const { title, body , coverImage } = req.body;
-    console.log(req.body);
-console.log(req.file);
-    await Blog.create({
-        title : title,
-        body : body,
-        coverImageUrl : `/Public/uploads/cover-image/${req.file.filename}`,
-        createdBy : req.user._id,
-    })
-    return res.redirect("/");
+async function createBlog(req, res) {
+  const { title, body, coverImage } = req.body;
+  console.log(req.body);
+  console.log(req.file);
+  const blog = await Blog.create({
+    title: title,
+    body: body,
+    coverImageUrl: `/uploads/cover-image/${req.file.filename}`,
+    createdBy: req.user._id,
+  });
+  return res.redirect(`/blog/${blog._id}`);
 }
 
-async function getAllBlogs(req,res){
-    const allBlogs = await Blog.find({}).sort("createdAt");
-    return res.render("home", {
-        user : req.user,
-        blogs : allBlogs
-    })
+async function getAllBlogs(req, res) {
+  const allBlogs = await Blog.find({}).sort("createdAt");
+  return res.render("home", {
+    user: req.user,
+    blogs: allBlogs,
+  });
+}
+
+async function getAllUserBlogsOrCommentBlogs(req, res) {
+  const allBlogs = await Blog.find({ createdBy: req.user._id });
+    const allComments = await Comment.find({ createdBy: req.user._id }).populate("blogID");
+    console.log("Comments", allComments);
+  return res.render("userHome", {
+    user: req.user,
+    blogs: allBlogs,
+    comments : allComments
+  });
+}
+
+async function createComment(req, res) {
+  const comment = await Comment.create({
+    content: req.body.content,
+    blogID: req.params.id,
+    createdBy: req.user._id,
+  });
+  return res.redirect(`/blog/${req.params.id}`);
+}
+
+async function handlerGetBlog(req, res) {
+  const blog = await Blog.findById(req.params.id).populate("createdBy");
+  const allComments = await Comment.find({ blogID: req.params.id }).populate(
+    "createdBy",
+  );
+  return res.render("blog", {
+    user: req.user,
+    blog: blog,
+    comments: allComments,
+  });
 }
 
 module.exports = {
-    createBlog,
-    getAllBlogs
-}
-
+  createBlog,
+  getAllBlogs,
+  handlerGetBlog,
+  createComment,
+  getAllUserBlogsOrCommentBlogs,
+};

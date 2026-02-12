@@ -1,8 +1,10 @@
 const express = require('express');
 const {createUploader} = require("../config/upload");
-const { createBlog } = require('../controllers/blogHandlers');
+const { createBlog, handlerGetBlog, createComment } = require('../controllers/blogHandlers');
 
 const blogRouter = express.Router();
+
+
 
 blogRouter.get("/add-new",  (req,res)=>{
     return res.render("addBlog", {
@@ -10,6 +12,11 @@ blogRouter.get("/add-new",  (req,res)=>{
     })
 } )
 
+blogRouter.get("/:id", handlerGetBlog)
+
+
 blogRouter.post("/", createUploader("cover-image").single("coverImage") , createBlog);
+
+blogRouter.post("/comment/:id", createComment);
 
 module.exports = blogRouter;
