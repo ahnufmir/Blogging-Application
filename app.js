@@ -1,3 +1,5 @@
+require('dotenv').config() 
+
 const express = require("express");
 const path = require("path");
 const userRouter = require("./routes/user");
@@ -7,12 +9,12 @@ const { checkForCookieAuhtentication } = require("./middlewares/auth");
 const blogRouter = require("./routes/blog");
 const generalRouter = require("./routes/home");
 
-connectToMongoDB("mongodb://localhost:27017/bloggio").then(() =>
+connectToMongoDB(process.env.MONGO_URL ).then(() =>
   console.log("MongoDB Connected"),
 );
 
 const app = express();
-const Port = 8000;
+const Port = process.env.PORT || 8000;
 
 //middlewares
 app.set("view engine", "ejs");

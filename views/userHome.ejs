@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./Partials/head') %>
+    <title>Your Blogs</title>
+</head>
+<body>
+    <%- include('./Partials/navbar') %>
+
+    <% if (user) { %>
+        <!-- User's Blogs -->
+        <% if (blogs && blogs.length > 0) { %>
+            <h1 class="text-center mt-4 mb-4 text-primary">Your Blogs</h1>
+            <div class="container mt-3">
+                <div class="row row-cols-3">
+                    <% blogs.forEach(blog => { %>
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                                <img src="<%= blog.coverImageUrl %>" class="card-img-top" alt="Blog Cover Image">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= blog.title %></h5>
+                                    <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read Blog</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        <% } else { %>
+            <h1 class="text-center mt-4 mb-4 text-muted">You haven't written any blogs yet.</h1>
+        <% } %>
+
+        <!-- Blogs User Commented On -->
+        <% if (comments && comments.length > 0) { %>
+            <h1 class="text-center mt-4 mb-4 text-success">Blogs On Which You Commented</h1>
+            <div class="container mt-3">
+                <div class="row row-cols-3">
+                    <% comments.forEach(comment => { %>
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                                <img src="<%= comment.blogID.coverImageUrl %>" class="card-img-top" alt="Blog Cover Image">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= comment.blogID.title %></h5>
+                                    <a href="/blog/<%= comment.blogID._id %>" class="btn btn-primary">Read Blog</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        <% } else { %>
+            <h1 class="text-center mt-4 mb-4 text-muted">You haven't commented on any blogs yet.</h1>
+        <% } %>
+    <% } else { %>
+        <h1 class="text-center mt-4 mb-4 text-danger">You are not logged in. Please log in to view your blogs.</h1>
+    <% } %>
+
+    <%- include('./Partials/script') %>
+</body>
+</html>

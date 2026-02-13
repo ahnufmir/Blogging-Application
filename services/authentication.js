@@ -1,6 +1,6 @@
 const { secureHeapUsed } = require('crypto');
 const jwt = require('jsonwebtoken');
-const SECRET = "!w0rk-@t-G00gle"
+const SECRET = process.env.SECRET;
 
 function createTokenForUser(user){
     const payload = {
