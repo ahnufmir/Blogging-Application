@@ -5,7 +5,9 @@ const uploadToS3 = require("../utils/s3");
 
 async function createBlog(req, res) {
   const { title, body, coverImage } = req.body;
-  const coverImageUrl = req.file ? await uploadToS3(req.file) : null;
+  const coverImageUrl = req.file
+    ? await uploadToS3(req.file, "blog-covers")
+    : null;
 
   const blog = await Blog.create({
     title,
@@ -26,12 +28,14 @@ async function getAllBlogs(req, res) {
 
 async function getAllUserBlogsOrCommentBlogs(req, res) {
   const allBlogs = await Blog.find({ createdBy: req.user._id });
-    const allComments = await Comment.find({ createdBy: req.user._id }).populate("blogID");
-    console.log("Comments", allComments);
+  const allComments = await Comment.find({ createdBy: req.user._id }).populate(
+    "blogID",
+  );
+  console.log("Comments", allComments);
   return res.render("userHome", {
     user: req.user,
     blogs: allBlogs,
-    comments : allComments
+    comments: allComments,
   });
 }
 

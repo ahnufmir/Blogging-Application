@@ -12,11 +12,13 @@ const schema = new mongoose.Schema(
     },
     coverImageUrl: {
       type: String,
-      default: "./Public/Images/avatar.png",
+      default: function () {
+        return `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/defaults/blog-cover.png`;
+      },
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref : "user"
+      ref: "user",
     },
   },
   { timestamps: true },
