@@ -29,7 +29,7 @@
   --accent-color: #38bdf8;
   --light-bg: #0f172a;
   --dark-bg: #020617;
-  --text-dark: #f1f5f9;
+  --text-dark: #f1f5f9;      /* Light text for dark mode */
   --text-muted: #cbd5e1;
   --border-light: #334155;
   --card-bg: #1e293b;
@@ -57,6 +57,8 @@ body {
   box-shadow: var(--shadow-sm);
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--border-light);
+  position: relative;
+  z-index: 999;
 }
 
 [data-theme="dark"] .navbar {
@@ -89,7 +91,7 @@ body {
   padding: 0.25rem 0.75rem;
   border-radius: 2rem;
   transition: all 0.2s ease;
-  margin-left: 1rem; /* space from nav items */
+  margin-left: 1rem;
 }
 
 .theme-toggle:hover {
@@ -97,9 +99,8 @@ body {
   transform: scale(1.05);
 }
 
-/* Ensure collapse content aligns properly */
 .navbar-collapse {
-  justify-content: space-between; /* nav links left, toggle right */
+  justify-content: space-between;
 }
 
 /* Mobile adjustments */
@@ -113,6 +114,15 @@ body {
     margin-top: 0.5rem;
     align-self: flex-start;
   }
+}
+
+/* ----- Dropdown (fix z-index) ----- */
+.dropdown-menu {
+  z-index: 1050 !important;  /* ensures dropdown appears above cards */
+  position: absolute !important;
+  top: 100%;
+  right: 0;
+  left: auto;
 }
 
 /* ----- Cards (blog listings) ----- */
@@ -144,20 +154,7 @@ body {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-}
-
-/* Grid spacing */
-.row-cols-3 .col {
-  margin-bottom: 1.5rem;
-}
-
-@media (max-width: 768px) {
-  .row-cols-3 {
-    row-cols: 1 !important;
-  }
-  .col {
-    margin-bottom: 1rem;
-  }
+  color: var(--text-dark);  /* ensure dark mode readability */
 }
 
 /* ----- Forms ----- */
@@ -179,6 +176,7 @@ body {
 label {
   font-weight: 600;
   margin-bottom: 0.3rem;
+  color: var(--text-dark);  /* dark mode compatible */
 }
 
 /* ----- Single Blog Post ----- */
@@ -186,6 +184,7 @@ label {
   font-size: 2.5rem;
   margin-top: 1.5rem;
   margin-bottom: 1rem;
+  color: var(--text-dark);  /* dark mode fix */
 }
 
 pre {
@@ -199,7 +198,7 @@ pre {
   word-wrap: break-word;
 }
 
-/* Author info (refined) */
+/* Author info */
 .container.mt-4:has(img) {
   display: flex;
   align-items: center;
@@ -233,6 +232,7 @@ pre {
   margin: 1rem 0 1rem;
   border-bottom: 2px solid var(--border-light);
   padding-bottom: 0.5rem;
+  color: var(--text-dark);
 }
 
 /* Comment form */
@@ -246,12 +246,12 @@ form[action^="/blog/comment/"] {
 .comment {
   background: var(--card-bg);
   border: 1px solid var(--border-light);
-  border-radius: 0.5rem; /* reduced from 1rem to 0.5rem for a more rectangular look */
+  border-radius: 0.5rem;
   padding: 1rem;
   margin-bottom: 1rem;
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.2s ease;
-  overflow: visible; /* ensure nothing cuts off */
+  overflow: visible;
 }
 
 .comment:hover {
@@ -288,6 +288,7 @@ form[action^="/blog/comment/"] {
   white-space: nowrap;
 }
 
+/* FIX: remove inner box from comment body */
 pre.comment-body {
   background: transparent !important;
   border: none !important;
@@ -303,25 +304,6 @@ pre.comment-body {
   overflow-wrap: break-word;
   width: 100%;
   box-sizing: border-box;
-}
-
-.comment-body {
-  margin: 0;
-  padding: 0.5rem 0 0 0;
-  background: transparent;
-  border: none;
-  border-top: 1px solid var(--border-light);
-  font-family: inherit;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text-dark);
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  width: 100%;
-  box-sizing: border-box;
-  max-width: 100%;
-  padding-left: 0; /* ensure no left padding hiding text */
 }
 
 /* ----- Footer ----- */
@@ -346,16 +328,6 @@ pre.comment-body {
   text-decoration: underline;
 }
 
-/* ----- Responsive ----- */
-@media (max-width: 576px) {
-  h1 { font-size: 2rem; }
-  .card-img-top { height: 160px; }
-  .comment-header { flex-direction: column; align-items: flex-start; }
-  .comment-author { margin-right: 0; }
-  .comment-date { white-space: normal; }
-  form[action^="/blog/comment/"] { flex-direction: column; }
-}
-
 /* ----- Sign In/Up Forms ----- */
 form[action="/user/signin"],
 form[action="/user/signup"] {
@@ -367,6 +339,12 @@ form[action="/user/signup"] {
   box-shadow: var(--shadow-lg);
 }
 
+form[action="/user/signin"] h2,
+form[action="/user/signup"] h2 {
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+}
+
 /* ----- Blog Add Form ----- */
 form[action="/blog/"] {
   max-width: 800px;
@@ -375,6 +353,16 @@ form[action="/blog/"] {
   background: var(--card-bg);
   border-radius: 1.5rem;
   box-shadow: var(--shadow-md);
+}
+
+/* ----- Responsive ----- */
+@media (max-width: 576px) {
+  h1 { font-size: 2rem; }
+  .card-img-top { height: 160px; }
+  .comment-header { flex-direction: column; align-items: flex-start; }
+  .comment-author { margin-right: 0; }
+  .comment-date { white-space: normal; }
+  form[action^="/blog/comment/"] { flex-direction: column; }
 }
 
 /* ----- Utility / Animations ----- */
