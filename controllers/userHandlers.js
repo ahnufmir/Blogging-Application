@@ -1,15 +1,17 @@
 const User = require("../models/user");
+const uploadToS3 = require("../utils/s3");
 
 async function handlerSignUp(req, res) {
   //  console.log(req.body.img);
 // console.log(req.body);
 // console.log(req.file);
   const { name, email, pass} = req.body;
+  const profilePicUrl = req.file ? await uploadToS3(req.file) : null;
   await User.create({
-    name: name,
-    email: email,
+    name,
+    email,
     password: pass,
-    profilePicUrl: `/uploads/profile-pic/${req.file.filename}`,
+    profilePicUrl,
   });
   return res.redirect("/user/signin");
 }

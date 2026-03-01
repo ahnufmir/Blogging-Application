@@ -1,15 +1,16 @@
 const Blog = require("../models/blog");
 const Comment = require("../models/comment");
 const { all } = require("../routes/user");
+const uploadToS3 = require("../utils/s3");
 
 async function createBlog(req, res) {
   const { title, body, coverImage } = req.body;
-  console.log(req.body);
-  console.log(req.file);
+  const coverImageUrl = req.file ? await uploadToS3(req.file) : null;
+
   const blog = await Blog.create({
-    title: title,
-    body: body,
-    coverImageUrl: `/uploads/cover-image/${req.file.filename}`,
+    title,
+    body,
+    coverImageUrl,
     createdBy: req.user._id,
   });
   return res.redirect(`/blog/${blog._id}`);
