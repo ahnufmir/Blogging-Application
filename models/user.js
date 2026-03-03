@@ -22,7 +22,9 @@ const schema = new mongoose.Schema(
     },
     profilePicUrl: {
       type: String,
-      default: "./Public/Images/avatar.jpg",
+      default: function () {
+        return `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/defaults/avatar.jpg`;
+      },
     },
   },
   { timestamps: true },
@@ -40,26 +42,29 @@ schema.pre("save", function () {
   this.password = hashedPassword;
 });
 
-schema.static("matchPasswordAndGenerateToken", async function (email, password) {
-  const user = await this.findOne({ email });
-  if (!user) throw new Error("No user in the database");
+schema.static(
+  "matchPasswordAndGenerateToken",
+  async function (email, password) {
+    const user = await this.findOne({ email });
+    if (!user) throw new Error("No user in the database");
 
-  const salt = user.salt;
-  const hashedPassword = user.password;
+    const salt = user.salt;
+    const hashedPassword = user.password;
 
-  const givePassword = createHmac("sha256", salt)
-    .update(password)
-    .digest("hex");
+    const givePassword = createHmac("sha256", salt)
+      .update(password)
+      .digest("hex");
 
-  if (hashedPassword !== givePassword) throw new Error("Incorrect Password");
+    if (hashedPassword !== givePassword) throw new Error("Incorrect Password");
 
-  const token = createTokenForUser(user);
-  return token;
-//   const obj = user.toObject();
-//   obj.password = undefined;
-//   obj.salt = undefined;
-//   return obj;
-});
+    const token = createTokenForUser(user);
+    return token;
+    //   const obj = user.toObject();
+    //   obj.password = undefined;
+    //   obj.salt = undefined;
+    //   return obj;
+  },
+);
 
 const User = new mongoose.model("user", schema);
 

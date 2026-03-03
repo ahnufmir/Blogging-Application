@@ -3,7 +3,7 @@
 <head>
     <%- include('./Partials/head') %>
     <link rel="stylesheet" href="/css/styles.css">
-    <title>Blogging App</title>
+    <title>Bloggio</title>
 </head>
 <body>
     <%- include('./Partials/navbar') %>
@@ -15,7 +15,7 @@
     <div class="container mt-4">
         <img src="<%= blog.createdBy.profilePicUrl %>" alt="" width="50px"><%= blog.createdBy.name %>
          <span>
-      • <%= blog.createdAt ? blog.createdAt.toLocaleString() : '' %>
+      • <%= blog.createdAt ? new Date(blog.createdAt).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) : '' %>
     </span>
     </div>
     
@@ -45,7 +45,7 @@
       <div class="comment-header">
         <img src="<%= comment.createdBy.profilePicUrl %>" alt="" width="30px">
         <span class="comment-author"><%= comment.createdBy.name %></span>
-        <span class="comment-date"><%= comment.createdAt ? comment.createdAt.toLocaleString() : '' %></span>
+        <span class="comment-date"><%= comment.createdAt ? new Date(comment.createdAt).toLocaleString('en-US', { timeZone: 'Asia/Karachi' }) : '' %></span>
       </div>
       <pre class="comment-body"><%= comment.content %></pre>
     </div>

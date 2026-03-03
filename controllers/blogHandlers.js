@@ -31,7 +31,6 @@ async function getAllUserBlogsOrCommentBlogs(req, res) {
   const allComments = await Comment.find({ createdBy: req.user._id }).populate(
     "blogID",
   );
-  console.log("Comments", allComments);
   return res.render("userHome", {
     user: req.user,
     blogs: allBlogs,
